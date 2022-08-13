@@ -1,0 +1,23 @@
+services:
+  web:
+    build:
+
+      dockerfile: Dockerfile-local
+    command:  sh -c "
+                    python manage.py migrate &&
+                    python manage.py collectstatic --no-input &&
+                    python manage.py runserver 0.0.0.0:9090 &&
+                    python manage.py search_index –rebuild"
+    volumes:
+      - static:path
+      - media:path
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=servedsfbhdsvvfsjfrhsbjsdfdsfjhsdf
+      - DEBUG=on
+      - DB_NAME=test
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_HOST=postgres_db
+      - DB_PORT=5432

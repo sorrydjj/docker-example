@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+
+  postgres_db:
+    restart: always
+    image: postgres:14
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=db_name
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      your_network:
+
+  web:
+    image: register path
+    depends_on:
+      - postgres_db
+    volumes:
+      - static:path
+      - media:path
+    ports:
+      - "8000:8000"
+    networks:
+      your_network:
+    environment:
+      - SECRET_KEY=servedsfbhdsvvfsjfrhsbjsdfdsfjhsdf
+      - DEBUG=on
+      - DB_NAME=test
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+
+  nginx:
+    image: register path
+    container_name: name
+    volumes:
+      - static:path
+      - media:path
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+    networks:
+      your_network:
+
+volumes:
+  postgres_data:
+  static:
+  media:
+
+networks:
+  your_network:
